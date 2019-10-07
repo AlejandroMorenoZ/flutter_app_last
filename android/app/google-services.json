@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "993801134773",
+    "firebase_url": "https://ultimaprueba-3182a.firebaseio.com",
+    "project_id": "ultimaprueba-3182a",
+    "storage_bucket": "ultimaprueba-3182a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993801134773:android:19003a5823de0c18fe54fc",
+        "android_client_info": {
+          "package_name": "presinginflutter.iniciodesesion_appxs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993801134773-ggf7avanhparvo2201bcovnqd6lropk4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9bufUdF5-uZrgmKcgKj5KOVRcS6Oakp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993801134773-ggf7avanhparvo2201bcovnqd6lropk4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993801134773:android:20be3ec099931661fe54fc",
+        "android_client_info": {
+          "package_name": "ultimaprubea.flutter_app_last"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993801134773-ggf7avanhparvo2201bcovnqd6lropk4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9bufUdF5-uZrgmKcgKj5KOVRcS6Oakp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993801134773-ggf7avanhparvo2201bcovnqd6lropk4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
