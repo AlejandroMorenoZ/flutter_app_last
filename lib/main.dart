@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
     return Provider(
       auth: Auth(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData.dark(),
         home: MyHomePage(),
@@ -80,6 +81,52 @@ class _LoginPageState extends State<LoginPage> {
   String _email, _password;
   FormType _formType = FormType.login;
 
+  bool validate() {
+    final form = formKey.currentState;
+    form.save();
+    if(form.validate()) {
+      form.save();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void submit() async {
+    if (validate()) {
+      try {
+        final auth = Provider.of(context).auth;
+        if (_formType == FormType.login) {
+      String userId = await auth.signInWithEmailAndPassword(
+      _email, _password,);
+
+      print('Signed in $userId');
+    } else {
+      String userId = await auth.createUserWithEmailAndPassword(
+      _email, _password);
+
+      print('Registered in $userId');
+    }
+      }catch (e) {
+        print(e);
+    }
+    }
+  }
+
+  void switchFormState(String state) {
+    formKey.currentState.reset();
+
+    if(state == 'register') {
+      setState(() {
+        _formType = FormType.register;
+      });
+    } else {
+      setState(() {
+        _formType = FormType.login;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Form(
           key: formKey,
           child: Column(
-            children: buildInputs(),
+            children: buildInputs() + buildButtons(),
           ),
         ),
       ),
@@ -111,5 +158,47 @@ class _LoginPageState extends State<LoginPage> {
         onSaved: (value) => _password = value,
       ),
     ];
+  }
+
+  List<Widget> buildButtons() {
+    if (_formType == FormType.login) {
+      return [
+      RaisedButton(
+        child: Text('Login'),
+        onPressed: submit,
+      ),
+    FlatButton(
+    child: Text('Register Account'),
+    onPressed: () {
+      switchFormState('register');
+    },
+    ),
+        FlatButton(
+          child: Text("Signin with Google"),
+          onPressed: () async {
+            try {
+              final _auth = Provider.of(context).auth;
+              final id = await _auth.signInWithGoogle();
+              print('Signed in with Google $id');
+            } catch(e) {
+              print(e);
+            }
+          },
+        )
+    ];
+    } else {
+      return [
+        RaisedButton(
+          child: Text('Create Account'),
+          onPressed: submit,
+        ),
+        FlatButton(
+          child: Text('Go to Login'),
+          onPressed: () {
+            switchFormState('login');
+          },
+        )
+      ];
+    }
   }
 }
