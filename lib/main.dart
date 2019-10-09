@@ -174,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
     },
     ),
         FlatButton(
-          child: Text("Signin with Google"),
+          child: Text("Signin with Google."),
           onPressed: () async {
             try {
               final _auth = Provider.of(context).auth;
