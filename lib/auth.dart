@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+import 'main.dart';
 
 
 
@@ -8,10 +11,15 @@ abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(
       String email,
       String password,
+
+
+
       );
   Future<String> createUserWithEmailAndPassword(
       String email,
       String password,
+
+
       );
 
   Future<String> currentUser();
@@ -23,6 +31,10 @@ abstract class BaseAuth {
 class Auth implements BaseAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+    String verificationId;
+    String phoneNo;
+    String smsCode;
 
 
   @override
@@ -65,6 +77,8 @@ class Auth implements BaseAuth {
     );
     return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
+
+
 
   @override
   Future<void> signOut() {

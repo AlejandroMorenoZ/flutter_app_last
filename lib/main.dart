@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'validator.dart';
 import 'provider.dart';
 import 'auth.dart';
+import 'package:flutter_app_last/PhoneNummber.dart';
 
 void main() => runApp(MyApp());
 
@@ -132,8 +133,10 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('SEC LOGIN'),
+        backgroundColor: Colors.teal,
       ),
       body: Center(
+
         child: Form(
           key: formKey,
           child: Column(
@@ -174,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
     },
     ),
         FlatButton(
-          child: Text("Signin with Google."),
+          child: Text("Signin with Google"),
           onPressed: () async {
             try {
               final _auth = Provider.of(context).auth;
@@ -184,7 +187,16 @@ class _LoginPageState extends State<LoginPage> {
               print(e);
             }
           },
-        )
+        ),
+        FlatButton(
+          child: Text("Log In Anonymously"),
+          onPressed: () {},
+        ),
+
+    RaisedButton(
+    child: Text('Log In Phone Number'),
+    onPressed: (){},
+    ),
     ];
     } else {
       return [
