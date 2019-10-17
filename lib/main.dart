@@ -3,6 +3,7 @@ import 'validator.dart';
 import 'provider.dart';
 import 'auth.dart';
 import 'package:flutter_app_last/PhoneNummber.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData.dark(),
         home: MyHomePage(),
+    routes: <String, WidgetBuilder>{
+      "/BENEFICIO": (BuildContext context) => new Authentication(),
+    }
       ),
     );
   }
@@ -195,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
 
     RaisedButton(
     child: Text('Log In Phone Number'),
-    onPressed: (){},
+    onPressed:  () {Navigator.of(context).pushNamed("/BENEFICIO");},
     ),
     ];
     } else {
@@ -214,3 +218,4 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 }
+

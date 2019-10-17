@@ -1,52 +1,52 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'main.dart';
 
-class Authenticaation extends StatefulWidget {
+class Authentication extends StatefulWidget {
   @override
   _AuthenticationState createState() => _AuthenticationState();
 }
 
-abstract class BaseAuth {
-  Future<void> verifyNumber();
-}
+class _AuthenticationState extends State<Authentication> {
 
-
-class _AuthenticationState extends State<Authenticaation> {
   String phoneNo;
   String smsCode;
   String verificationId;
 
-  @override
-  Future<void> verifyNumber() async {
+  Future<void> verifyNumber() async{
     final PhoneCodeAutoRetrievalTimeout autoRetrieve=(String verID){
       this.verificationId=verID;
+      ///Dialog here
+      smsCodeDialog(context);
     };
+
     final PhoneVerificationCompleted verificationSuccess=(AuthCredential credential){
       print("Verified");
-      {Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
-          MyHomePage(),
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
+          MyHomePage()
       ));
-      }
     };
 
     final PhoneCodeSent smsCodeSent=(String verID,[int forceCodeResend]){
       this.verificationId=verID;
       Navigator.pop(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>MyHomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
+          MyHomePage()
+      ));
     };
 
-    final PhoneVerificationFailed verificationFailed= (AuthException exception){
+    final PhoneVerificationFailed verificationFailed=(AuthException exception){
       print('$exception.message');
     };
 
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: this.phoneNo,
-      codeAutoRetrievalTimeout: autoRetrieve,
-      codeSent: smsCodeSent,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: verificationSuccess,
-      verificationFailed: verificationFailed,
+        phoneNumber: this.phoneNo,
+        codeAutoRetrievalTimeout: autoRetrieve,
+        codeSent: smsCodeSent,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verificationSuccess,
+        verificationFailed: verificationFailed
+
     );
   }
 
@@ -55,7 +55,7 @@ class _AuthenticationState extends State<Authenticaation> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context)=> AlertDialog(
-          title: Text("Enter SMS Code"),
+          title: Text("Enter SMS code"),
           content: TextField(
               onChanged: (value){
                 this.smsCode=value;
@@ -67,12 +67,12 @@ class _AuthenticationState extends State<Authenticaation> {
               child: Text("Done", style: TextStyle(color: Colors.white),),
               onPressed: (){
                 FirebaseAuth.instance.currentUser().then((user){
-                  if(user!=null) {
+                  if(user!=null){
                     Navigator.pop(context);
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (BuildContext context) =>
-                            MyHomePage()
-                        ));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
+                        MyHomePage()
+
+                    ));
                   }
                   else{
                     Navigator.pop(context);
@@ -86,10 +86,11 @@ class _AuthenticationState extends State<Authenticaation> {
     );
   }
 
-  signIn() async{
+  signIn()async{
     final AuthCredential credential= PhoneAuthProvider.getCredential(
       verificationId: verificationId,
-      smsCode: smsCode,);
+      smsCode: smsCode,
+    );
     await FirebaseAuth.instance.signInWithCredential(credential).then((user){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context)=>
           MyHomePage()
@@ -98,9 +99,28 @@ class _AuthenticationState extends State<Authenticaation> {
     }).catchError((e)=>print(e));
   }
 
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Scaffold(
+      appBar: AppBar(title: Text("Sign In to Whatsap"),),
+      body: ListView(children: <Widget>[
+        FlutterLogo(
+          size: 250,
+          colors: Colors.teal,
+        ),
+        TextField(
+          decoration: InputDecoration(hintText: "Enter phone number"),
+          onChanged: (value){
+            this.phoneNo=value;
+          },
+        ),
+        RaisedButton(
+          color: Colors.teal,
+          onPressed: verifyNumber,
+          child: Text("Verify", style: TextStyle(color: Colors.white),),
+        )
+      ],),
+    );
   }
 }
